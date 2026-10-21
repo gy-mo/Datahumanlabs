@@ -114,21 +114,36 @@
       const back = card.querySelector(".vertical-card-back");
       const trigger = card.querySelector(".vertical-card-trigger");
       const returnButton = card.querySelector(".vertical-card-return");
-      const setFlipped = (flipped) => {
+      const setFlipped = (flipped, moveFocus = true) => {
         card.classList.toggle("is-flipped", flipped);
         trigger.setAttribute("aria-expanded", String(flipped));
         front.setAttribute("aria-hidden", String(flipped));
         back.setAttribute("aria-hidden", String(!flipped));
         front.inert = flipped;
         back.inert = !flipped;
-        (flipped ? card.querySelector(".vertical-detail-link") : trigger).focus({ preventScroll: true });
+        if (moveFocus) (flipped ? card.querySelector(".vertical-detail-link") : trigger).focus({ preventScroll: true });
       };
+      card.setFlipped = setFlipped;
       trigger.addEventListener("click", () => setFlipped(true));
       returnButton.addEventListener("click", () => setFlipped(false));
       card.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && card.classList.contains("is-flipped")) setFlipped(false);
       });
     });
+
+    if ("IntersectionObserver" in window) {
+      const flipOnScroll = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || entry.intersectionRatio < 0.55) return;
+          const card = entry.target;
+          observer.unobserve(card);
+          if (card.contains(document.activeElement)) return;
+          const trigger = card.querySelector(".vertical-card-trigger");
+          if (trigger.getAttribute("aria-expanded") === "false") card.setFlipped(true, false);
+        });
+      }, { threshold: [0.55] });
+      document.querySelectorAll(".vertical-card").forEach((card) => flipOnScroll.observe(card));
+    }
   </script>
 </body>
 </html>
