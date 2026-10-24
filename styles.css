@@ -15,10 +15,14 @@ nav { min-height: 76px; display: flex; align-items: center; justify-content: spa
 .nav-links a:hover, .vertical-switcher a:hover { color: var(--accent); }
 .nav-cta { color: var(--accent) !important; font-weight: 700; }
 .hero { max-width: 850px; padding: 108px 0 88px; }
+.hero-logo { display: inline-block; margin-bottom: 22px; font-size: 21px; }
 .eyebrow { color: var(--accent); font-size: 11px; font-weight: 750; letter-spacing: 1.7px; text-transform: uppercase; }
+.hero > .eyebrow { color: var(--ink); }
 h1 { margin: 19px 0 22px; font-size: clamp(42px, 6vw, 72px); line-height: 1.08; letter-spacing: -3px; font-weight: 650; }
-.hero h1 { color: var(--accent); }
-h1 span { color: var(--accent); }
+.hero h1 { color: var(--ink); }
+.hero h1 .headline-line { display: inline-block; animation: headline-reveal .9s cubic-bezier(.2,.7,.2,1) both; }
+.hero h1 .headline-line:nth-of-type(2) { animation-delay: .2s; }
+.hero h1 .accent-word { color: var(--accent); }
 h2 { font-size: clamp(27px, 3.4vw, 38px); line-height: 1.2; letter-spacing: -1.2px; font-weight: 620; }
 h3 { font-size: 17px; line-height: 1.35; font-weight: 650; }
 .lead { max-width: 700px; color: var(--muted); font-size: 18px; }
@@ -91,6 +95,7 @@ footer { margin-top: 30px; border-top: 1px solid var(--border); color: var(--mut
   .footer-inner { padding: 17px 0; }
 }
 @keyframes hero-enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes headline-reveal { from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(12px); } to { opacity: 1; clip-path: inset(0); transform: translateY(0); } }
 .hero > * { animation: hero-enter .75s ease both; }
 .hero h1 { animation-delay: .1s; }
 .hero .lead { animation-delay: .2s; }
